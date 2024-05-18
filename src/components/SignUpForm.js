@@ -1,47 +1,60 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import InputField from "./InputField";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import config from "../config";
+import ThemeButton from "./ThemeButton";
+
+const initialState = {
+  name: "",
+  email: "",
+  password: "",
+};
+
+function reducerFunction(previousState, action) {
+  if (action.type === "SET_NAME") {
+    return { ...previousState, name: action.payload };
+  } else if (action.type === "SET_EMAIL") {
+    return { ...previousState, email: action.payload };
+  } else if (action.type === "SET_PASSWORD") {
+    return { ...previousState, password: action.payload };
+  }
+}
 
 function SignUpForm() {
   const navigate = useNavigate();
 
-  const [name,setName] = useState("")
-  const [email,setEmail]= useState("")
-  const [password,setPassword] = useState("");
-  const [error,setError] = useState(true);
+  const [state, dispatch] = useReducer(reducerFunction, initialState);
+  const [error, setError] = useState(true);
 
-
- async function createUserAPI (){
+  async function createUserAPI() {
     try {
       const body = {
-        name : name,
-        email : email,
-        password : password,
-      }
-      const headers = {
-        "Content-Type": "application/json"
-      }
-      const response = await axios.post("http://localhost:4000/api/users/", body, { headers: headers });
-    console.log(response.data);
-    navigate("/dashboard");
-  } catch (error) {
-    console.error("Error creating user:", error);
+        name: state.name,
+        email: state.email,
+        password: state.password,
+      };
+      await axios.post(`${config.BASE_URL}/api/users/`, body);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error creating user:", error);
     }
   }
 
-  async function submitHandler(event){
+  async function submitHandler(event) {
     event.preventDefault();
-    await createUserAPI();
+    if (!error) {
+      await createUserAPI();
+    }
   }
 
-  useEffect(()=>{
-    if(name && email && password && password.length >=8){
+  useEffect(() => {
+    if (state.name && state.email && state.password && state.password.length >= 8) {
       setError(false);
-    }else{
-      setError(true)
+    } else {
+      setError(true);
     }
-  },[password])
+  }, [state.name, state.email, state.password]);
 
   return (
     <>
@@ -57,32 +70,35 @@ function SignUpForm() {
               type={"text"}
               name={"name"}
               placeholder={"Enter Name"}
-              onChange={(event)=>{setName(event.target.value)}}
-              value={name}
+              onChange={(event) =>
+                dispatch({ type: "SET_NAME", payload: event.target.value })
+              }
+              value={state.name}
+              required={true}
             />
             <InputField
               label={"Email"}
               type={"email"}
               name={"email"}
               placeholder={"Enter Email"}
-              onChange={(event)=>{setEmail(event.target.value)}}
-              value={email}
+              onChange={(event) =>
+                dispatch({ type: "SET_EMAIL", payload: event.target.value })
+              }
+              value={state.email}
+              required={true}
             />
             <InputField
               label={"Password"}
               type={"password"}
               name={"password"}
               placeholder={"Enter Password"}
-              onChange={(event)=>{setPassword(event.target.value)}}
-              value={password}
+              onChange={(event) =>
+                dispatch({ type: "SET_PASSWORD", payload: event.target.value })
+              }
+              value={state.password}
+              required={true}
             />
-            <button
-              className="w-full bg-blue-900 p-3 mt-10 text-white rounded-md duration-500 hover:border-blue-900 hover:border hover:border-solid hover:bg-transparent hover:text-blue-900 disabled:bg-gray-600 disabled:hover:text-white disabled:hover:border-none"
-              disabled={error}
-              type="submit"
-            >
-              Sign Up
-            </button>
+            <ThemeButton name={"Sign Up"} size={"w-full"} disabled={error}/>
             <div className="flex justify-center text-center mt-16">
               <p>Already a user?</p>
               <p className="text-blue-900">Login</p>
