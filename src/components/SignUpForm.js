@@ -98,7 +98,7 @@ function SignUpForm() {
               value={state.password}
               required={true}
             />
-            <ThemeButton name={"Sign Up"} size={"w-full"} disabled={error}/>
+            <ThemeButton className={"w-full"} disabled={error}>Sign Up</ThemeButton>
             <div className="flex justify-center text-center mt-16">
               <p>Already a user?</p>
               <p className="text-blue-900">Login</p>
