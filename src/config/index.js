@@ -1,5 +1,5 @@
 const config = {
-    BASE_URL : process.env.API_BASE_URL
+    BASE_URL : "http://localhost:4000/api"
 }
 
 export default config;

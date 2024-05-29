@@ -6,12 +6,10 @@ import { Navigate } from "react-router";
 
 
 
-function Login ({setIsLoggedIn}){
+function Login (){
     const contextData = useContext(AuthContext);
-  console.log(contextData);
-
+console.log(contextData)
   const isAuthenticated = contextData.isLoggedIn === true;
-
   if(isAuthenticated){
     return <Navigate to={"/dashboard"}/>
   }
@@ -23,7 +21,7 @@ function Login ({setIsLoggedIn}){
         <div className='w-[40%] h-full flex justify-center items-center'>
             <img src={Vector} className="h-46 mb-16"/>
         </div>
-            <LoginForm setIsLoggedIn={setIsLoggedIn}/>
+            <LoginForm />
         </div>
         
         </div>

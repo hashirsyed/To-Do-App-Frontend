@@ -1,12 +1,24 @@
+import { useContext } from "react";
+import { DashboardLayout } from "../components/DashboardLayout";
+import AuthContext from "../store/auth";
+import { Navigate } from "react-router";
+
+function Dashboard() {
+  
+  const {user} = useContext(AuthContext);
+  const contextData = useContext(AuthContext);
+  
+  const isAuthenticated = contextData.isLoggedIn === true;
+  if(!isAuthenticated){
+    return <Navigate to={"/login"}/>
+  }
 
 
-
-function Dashboard (){
-    return (
-        <>
-        <h1>Welcome to To-Do App</h1>
-        </>
-    )
+  return (
+      <DashboardLayout>
+        <h1 className= "font-black text-xl">Welcome {user.name}</h1>
+      </DashboardLayout>
+  );
 }
 
 export default Dashboard;

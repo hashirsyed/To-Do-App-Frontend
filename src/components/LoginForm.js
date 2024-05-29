@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import InputField from "./InputField";
 import { useNavigate } from "react-router";
 import axios from "axios";
@@ -7,6 +7,7 @@ import ThemeButton from "./ThemeButton";
 import { NavLink } from "react-router-dom";
 import { Toast } from "flowbite-react";
 import { HiExclamation } from "react-icons/hi";
+import AuthContext from "../store/auth";
 
 const initialState = {
   email: "",
@@ -24,7 +25,11 @@ function reducerFunction(previousState, action) {
   }
 }
 
-function LoginForm({ setIsLoggedIn }) {
+function LoginForm() {
+  const { setIsLoggedIn } = useContext(AuthContext);
+  const { setToken } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
+
   const navigate = useNavigate();
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
@@ -38,7 +43,14 @@ function LoginForm({ setIsLoggedIn }) {
         password: state.password,
       };
       const url = `${config.BASE_URL}/users/login`;
-      await axios.post(url, body);
+      const response = await axios.post(url, body);
+      console.log(response);
+      const { token, user } = response.data;
+
+      localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
+      localStorage.setItem("token", token);
+      setToken(token);
       localStorage.setItem("isLoggedIn", "true");
       setIsLoggedIn(true);
       setToastMessage("Login successful!");
@@ -102,12 +114,12 @@ function LoginForm({ setIsLoggedIn }) {
             </ThemeButton>
             {showToast && (
               <Toast className="bg-red-100 mt-2 text-red-500">
-              <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-orange-500 dark:bg-orange-700 ">
-                <HiExclamation className="h-5 w-5" />
-              </div>
-              <div className="ml-3 text-sm font-normal">{toastMessage}</div>
-              <Toast.Toggle className="bg-transparent hover:bg-transparent duration-300 hover:text-blue-900" />
-            </Toast>
+                <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-orange-500 dark:bg-orange-700 ">
+                  <HiExclamation className="h-5 w-5" />
+                </div>
+                <div className="ml-3 text-sm font-normal">{toastMessage}</div>
+                <Toast.Toggle className="bg-transparent hover:bg-transparent duration-300 hover:text-blue-900" />
+              </Toast>
             )}
             <div className="flex justify-center text-center mt-12">
               <p>Don't have an account? </p>
