@@ -2,15 +2,19 @@
 
 import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import AuthContext from "../store/auth";
+
 
 export function CustomNavbar() {
   const { setIsLoggedIn, user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   function logOut() {
-    localStorage.clear("isLoggedIn");
+    localStorage.setItem("isLoggedIn","false");
     setIsLoggedIn(false);
+    navigate("/login")
+    
   }
 
   return (
