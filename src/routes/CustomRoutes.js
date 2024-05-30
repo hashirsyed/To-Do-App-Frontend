@@ -2,26 +2,38 @@ import Dashboard from "../pages/Dashboard";
 import PageNotFound from "../pages/404";
 import SignUp from "../pages/SignUp";
 import { Route, Routes } from "react-router";
+import Login from "../pages/Login";
+import Todo from "../pages/Todo";
 
 function CustomRoutes() {
   const appRoutes = [
     {
       id: 1,
       path: "/",
-      element: <Dashboard />,
+      element: <Dashboard />
     },
     {
       id: 2,
       path: "/dashboard",
-      element: <Dashboard />,
+    element: <Dashboard />
     },
     {
       id: 3,
       path: "/signUp",
-      element: <SignUp />,
+      element: <SignUp />
     },
     {
-      id: 5,
+      id: 4,
+      path: "/login",
+      element: <Login />
+    },
+    {
+      id : 5,
+      path: "/todo",
+      element: <Todo />
+    },
+    {
+      id: 6,
       path: "*",
       element: <PageNotFound />,
     },

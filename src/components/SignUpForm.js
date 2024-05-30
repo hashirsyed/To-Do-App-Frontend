@@ -1,9 +1,11 @@
-import { useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import InputField from "./InputField";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import config from "../config";
 import ThemeButton from "./ThemeButton";
+import { NavLink } from "react-router-dom";
+import AuthContext from "../store/auth";
 
 const initialState = {
   name: "",
@@ -22,6 +24,10 @@ function reducerFunction(previousState, action) {
 }
 
 function SignUpForm() {
+  const { setIsLoggedIn } = useContext(AuthContext);
+  const { setToken } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
+
   const navigate = useNavigate();
 
   const [state, dispatch] = useReducer(reducerFunction, initialState);
@@ -34,7 +40,16 @@ function SignUpForm() {
         email: state.email,
         password: state.password,
       };
-      await axios.post(`${config.BASE_URL}/api/users/`, body);
+      const url = `${config.BASE_URL}/users/`;
+      const response = await axios.post( url , body);
+      const { token, user } = response.data;
+
+      localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
+      localStorage.setItem("token", token);
+      setToken(token);
+      localStorage.setItem("isLoggedIn" , "true")
+      setIsLoggedIn(true);
       navigate("/dashboard");
     } catch (error) {
       console.error("Error creating user:", error);
@@ -101,7 +116,7 @@ function SignUpForm() {
             <ThemeButton className={"w-full"} disabled={error}>Sign Up</ThemeButton>
             <div className="flex justify-center text-center mt-16">
               <p>Already a user?</p>
-              <p className="text-blue-900">Login</p>
+              <p className="text-blue-900"><NavLink to={"/login"}>Login</NavLink></p>
             </div>
           </form>
         </div>
