@@ -220,7 +220,7 @@ function TaskLayout({
             />
           ) : (
             <h1
-              className="text-black font-black text-lg"
+              className="text-black font-bold text-lg"
               onDoubleClick={() => setEditTitle(true)}
             >
               {status === "Completed" ? <del>{title}</del> : title}
@@ -228,7 +228,7 @@ function TaskLayout({
           )}
 
           <div className="flex items-center w-60 text-left justify-between">
-            <p className="font-black text-sm">Status :</p>
+            <p className="font-bold text-sm">Status :</p>
             <Dropdown
               label={
                 <Badge color={STATUS_BADGE_COLORS[status]} className="ml-2">
@@ -284,7 +284,7 @@ function TaskLayout({
             </p>
           )}
           <div className="flex items-center w-60 text-left">
-            <p className="font-black text-sm">Priority :</p>
+            <p className="font-bold text-sm">Priority :</p>
             <Dropdown label={PRIORITY_ICONS[priority]} arrowIcon={false} inline>
               {priorities.map((priority) => (
                 <Dropdown.Item
