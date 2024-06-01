@@ -37,6 +37,10 @@ function ToDoForm() {
   const [loading, setLoading] = useState(true);
   const [tasksArray, setTasksArray] = useState(tasks);
   const [openModal, setOpenModal] = useState(false);
+  const [completedTasks,setCompletedTasks] = useState([]);
+  const [cancelledTasks,setCancelledTasks] = useState([]);
+  const [todoTaks , setTodoTasks] = useState([]);
+  const [inProgressTasks,setInProgressTasks] = useState([]);
   const [error, setError] = useState(true);
 
   function onCloseModal() {
@@ -81,6 +85,18 @@ function ToDoForm() {
       setLoading(false);
     }
   }
+useEffect(()=>{
+  
+const completed = tasksArray.filter(task => task.status === "Completed");
+const cancelled = tasksArray.filter(task => task.status === "Cancelled");
+const todo = tasksArray.filter(task => task.status === "Todo")
+const inProgress = tasksArray.filter(task => task.status === "In Progress");
+
+setCompletedTasks(completed);
+setCancelledTasks(cancelled);
+setTodoTasks(todo);
+setInProgressTasks(inProgress);
+},[tasksArray])
 
   useEffect(() => {
     if (user) {
@@ -157,24 +173,62 @@ function ToDoForm() {
         </Modal>
       </div>
       <div className="mt-20">
-        {loading ? (
-          <BeatLoader size={20} color="#1E3A8A" className="text-center" />
-        ) : tasksArray.length ? (
-          tasksArray.map((task) => (
-            <TaskLayout
-              key={task.id}
-              title={task.title}
-              description={task.description}
-              status={task.status}
-              priority={task.priority}
-              statusColor={"warning"}
-              priorityColor={"failure"}
-              id={task.id}
-            />
-          ))
-        ) : (
-          <div className="text-center">Tasks not Found</div>
-        )}
+      {loading ? (
+  <BeatLoader size={20} color="#1E3A8A" className="text-center" />
+) : (
+  <>
+    {todoTaks.length === 0 && inProgressTasks.length === 0 && completedTasks.length === 0 && cancelledTasks.length === 0 ? (
+      <div className="text-center">Tasks not found</div>
+    ) : (
+      <>
+        {todoTaks.map((task) => (
+          <TaskLayout
+            key={task.id}
+            title={task.title}
+            description={task.description}
+            initialStatus={task.status}
+            initialPriority={task.priority}
+            id={task.id}
+            refreshTasks={getTasks}
+          />
+        ))}
+        {inProgressTasks.map((task) => (
+          <TaskLayout
+            key={task.id}
+            title={task.title}
+            description={task.description}
+            initialStatus={task.status}
+            initialPriority={task.priority}
+            id={task.id}
+            refreshTasks={getTasks}
+          />
+        ))}
+        {completedTasks.map((task) => (
+          <TaskLayout
+            key={task.id}
+            title={task.title}
+            description={task.description}
+            initialStatus={task.status}
+            initialPriority={task.priority}
+            id={task.id}
+            refreshTasks={getTasks}
+          />
+        ))}
+        {cancelledTasks.map((task) => (
+          <TaskLayout
+            key={task.id}
+            title={task.title}
+            description={task.description}
+            initialStatus={task.status}
+            initialPriority={task.priority}
+            id={task.id}
+            refreshTasks={getTasks}
+          />
+        ))}
+      </>
+    )}
+  </>
+)}
       </div>
     </DashboardLayout>
   );
