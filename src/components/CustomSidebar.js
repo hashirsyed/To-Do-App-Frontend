@@ -23,8 +23,8 @@ export function CustomSidebar() {
           <Sidebar.ItemGroup>
             <NavLink to={"/dashboard"}>
               <Sidebar.Item icon={() => (
-                  <HiChartPie className={`w-6 h-6 ${pathname==="/dashboard" ? "text-white" : ""}`} />
-                )} className={`${pathname==="/dashboard" && "bg-blue-900 text-white duration-300 hover:bg-blue-900 hover:text-white"} mt-10 p-4`}>
+                  <HiChartPie className={`w-6 h-6 ${pathname==="/dashboard" ? "text-white" : "" || pathname==="/" ? "text-white" : ""}`} />
+                )} className={`${pathname==="/dashboard" ? "bg-blue-900 text-white duration-300 hover:bg-blue-900 hover:text-white" : ""|| pathname==="/" ? "bg-blue-900 text-white duration-300 hover:bg-blue-900 hover:text-white" : ""} mt-10 p-4 `}>
                 Dashboard
               </Sidebar.Item>
             </NavLink>

@@ -1,5 +1,10 @@
 import { Badge, Dropdown } from "flowbite-react";
-import { HighPriorityIcon, LowPriorityIcon, MediumPriorityIcon, TrashIcon } from "./Icons";
+import {
+  HighPriorityIcon,
+  LowPriorityIcon,
+  MediumPriorityIcon,
+  TrashIcon,
+} from "./Icons";
 import { useContext, useReducer, useState } from "react";
 import AuthContext from "../store/auth";
 import axios from "axios";
@@ -69,8 +74,10 @@ function TaskLayout({
   const [status, setStatus] = useState(initialStatus);
   const [priority, setPriority] = useState(initialPriority);
   const [editTitle, setEditTitle] = useState(false);
+  const [editDescription, setEditDescription] = useState(false);
   const { user, token } = useContext(AuthContext);
   const [titleValue, setTitleValue] = useState(title);
+  const [descriptionValue, setDescriptionValue] = useState(description);
   const [showOptions, setShowOptions] = useState(false);
 
   const statusHandler = async (newStatus) => {
@@ -113,7 +120,6 @@ function TaskLayout({
   };
   const optionHandler = async () => {
     try {
-
       await axios.delete(`${config.BASE_URL}/users/${user.id}/tasks/${id}`, {
         headers: {
           Authorization: token,
@@ -126,14 +132,25 @@ function TaskLayout({
       // Handle the error (e.g., show a notification to the user)
     }
   };
-  function handlePress (event){
+  function handleTitlePress(event) {
     console.log(event);
-    if(event.key === "Enter"){
-        titleHandler();
+    if (event.key === "Enter") {
+      submitTitleHandler();
+    }
+    if (event.key === "Escape") {
+      cancelTitleHandler();
     }
   }
-  async function titleHandler() {
-
+  function handleDescriptionPress(event) {
+    console.log(event);
+    if (event.key === "Enter") {
+      submitDescriptionHandler();
+    }
+    if (event.key === "Escape") {
+      cancelDescriptionHandler();
+    }
+  }
+  async function submitTitleHandler() {
     try {
       const body = {
         title: titleValue,
@@ -150,7 +167,33 @@ function TaskLayout({
       console.error("Error updating task:", error);
       // Handle the error (e.g., show a notification to the user)
     }
-  };
+  }
+  async function submitDescriptionHandler() {
+    try {
+      const body = {
+        description: descriptionValue,
+      };
+
+      await axios.put(`${config.BASE_URL}/users/${user.id}/tasks/${id}`, body, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      setEditDescription(false);
+      refreshTasks();
+    } catch (error) {
+      console.error("Error updating task:", error);
+      // Handle the error (e.g., show a notification to the user)
+    }
+  }
+  function cancelTitleHandler() {
+    setEditTitle(false);
+    refreshTasks();
+  }
+  function cancelDescriptionHandler() {
+    setEditDescription(false);
+    refreshTasks();
+  }
   return (
     <>
       <div
@@ -172,7 +215,7 @@ function TaskLayout({
               className="py-1 px-4 w-[50%] bg-transparent mt-1 rounded-md focus:ring-0 focus:outline-none border-2 focus:border-blue-900"
               value={titleValue}
               type="text"
-              onKeyPress={handlePress}
+              onKeyDown={handleTitlePress}
               onChange={(event) => setTitleValue(event.target.value)}
             />
           ) : (
@@ -207,10 +250,19 @@ function TaskLayout({
               ))}
             </Dropdown>
             <div className="ml-auto">
-              <Dropdown label={<OptionsTaskIcon />} className="w-40" arrowIcon={false} inline>
+              <Dropdown
+                label={<OptionsTaskIcon />}
+                className="w-40"
+                arrowIcon={false}
+                inline
+              >
                 {options.map((option) => (
-                  <Dropdown.Item className="text-[13px] text-red-500" key={option.value} onClick={() => optionHandler()}>
-                   {<TrashIcon color="red"/>} {option.label}
+                  <Dropdown.Item
+                    className="text-[13px] text-red-500"
+                    key={option.value}
+                    onClick={() => optionHandler()}
+                  >
+                    {<TrashIcon color="red" />} {option.label}
                   </Dropdown.Item>
                 ))}
               </Dropdown>
@@ -218,9 +270,19 @@ function TaskLayout({
           </div>
         </div>
         <div className="flex justify-between mt-2">
-          <p className="text-[13px]">
-            {status === "Completed" ? <del>{description}</del> : description}
-          </p>
+          {editDescription === true ? (
+            <textarea
+              className="py-1 px-4 w-[50%] text-[13px] bg-transparent mt-1 rounded-md focus:ring-0 focus:outline-none border-2 focus:border-blue-900"
+              value={descriptionValue}
+              type="text"
+              onKeyDown={handleDescriptionPress}
+              onChange={(event) => setDescriptionValue(event.target.value)}
+            />
+          ) : (
+            <p className="text-[13px] w-[75%]" onDoubleClick={()=> setEditDescription(true)}>
+              {status === "Completed" ? <del>{description}</del> : description}
+            </p>
+          )}
           <div className="flex items-center w-60 text-left">
             <p className="font-black text-sm">Priority :</p>
             <Dropdown label={PRIORITY_ICONS[priority]} arrowIcon={false} inline>

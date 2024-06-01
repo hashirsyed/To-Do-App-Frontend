@@ -9,6 +9,7 @@ import axios from "axios";
 import AuthContext from "../store/auth";
 import TaskLayout from "./TasksLayout";
 import { BeatLoader } from "react-spinners";
+import CustomTextArea from "./CustomTextArea";
 
 const tasks = [];
 const initialState = {
@@ -136,7 +137,7 @@ setInProgressTasks(inProgress);
                   console.log(event.target.value);
                 }}
               />
-              <InputField
+              <CustomTextArea
                 placeholder={"Enter Description"}
                 label={"Description"}
                 name={"description"}
