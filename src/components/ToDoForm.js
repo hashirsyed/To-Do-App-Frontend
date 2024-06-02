@@ -113,8 +113,7 @@ setInProgressTasks(inProgress);
   }, [state.title, state.description]);
 
   return (
-    <DashboardLayout>
-      <h1 className="text-black font-bold text-2xl text-center">To Do's</h1>
+    <DashboardLayout heading={"Todo's"}>
       <div className="flex items-center">
         <ThemeButton
           onClick={() => setOpenModal(true)}

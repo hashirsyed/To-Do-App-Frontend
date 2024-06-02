@@ -17,8 +17,7 @@ function Dashboard() {
 
 
   return (
-      <DashboardLayout>
-        <h1 className= "font-bold text-xl">Welcome {user.name}</h1>
+      <DashboardLayout heading={`Welcome ${user.name}`}>
         <DashboardDesign/>
       </DashboardLayout>
   );

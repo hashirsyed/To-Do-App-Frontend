@@ -3,7 +3,7 @@ import Chart from "react-apexcharts";
 import AuthContext from "../store/auth";
 import config from "../config";
 import axios from "axios";
-import colors from 'tailwindcss/colors';
+import TaskCounterCard from "./TaskCounterCard";
 
 function DashboardDesign() {
   const { token, user } = useContext(AuthContext);
@@ -53,15 +53,22 @@ function DashboardDesign() {
 
   return (
     <>
-      <div className="mt-20">
-        <Chart
+      <div className="mt-10 grid gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <TaskCounterCard status={"All Tasks"} count={allTasks} color={"bg-primary-color"} text={"white"}/>
+        <TaskCounterCard status={"Completed"} count={series[2]} color={"bg-customGreen-color"} text={"white"}/>
+        <TaskCounterCard status={"In Progress"} count={series[1]} color={"bg-customYellow-color"} text={"white"}/>
+        <TaskCounterCard status={"Todo"} count={series[0]} color={"bg-customBlue-color"} text={"white"}/>
+        
+      </div>
+        <div className="mt-10 flex justify-center items-center">
+      <Chart
           type="donut"
           width={600}
           height={600}
           series={series}
           options={{
             labels: labels,
-            colors: [colors.indigo[400], colors.orange[300], colors.green[400], colors.red[400]],
+            colors: ["#008FFB", "#FEB019", "#00E396", "#FF4560"],
             plotOptions: {
               pie: {
                 donut: {
@@ -76,11 +83,9 @@ function DashboardDesign() {
                 },
               },
             },
-            legend: {
-              show: true,
-              position: "bottom",
-            },
+            
           }}
+          
         />
       </div>
     </>

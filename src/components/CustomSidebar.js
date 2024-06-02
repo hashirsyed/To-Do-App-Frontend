@@ -16,7 +16,7 @@ export function CustomSidebar() {
       >
         <div className="flex items-center flex-col">
           <img src={Logo} className="w-28" />
-          <h1 className="text-black font-black text-2xl">Todo Nexus</h1>
+          <h1 className="text-black font-extrabold text-2xl">Todo Nexus</h1>
         </div>
         <hr className="my-5 border-black"/>
         <Sidebar.Items>

@@ -3,6 +3,7 @@ import {
   HighPriorityIcon,
   LowPriorityIcon,
   MediumPriorityIcon,
+  TickIcon,
   TrashIcon,
 } from "./Icons";
 import { useContext, useReducer, useState } from "react";
@@ -208,11 +209,15 @@ function TaskLayout({
             ? "bg-indigo-50"
             : "bg-gray-100"
         } px-8 py-4 rounded-md duration-300 hover:`}
+
       >
+        
         <div className="flex justify-between">
+        
+        <div className={`flex ${editTitle === true ? "items-center" : ""} w-[60%]`}>
           {editTitle === true ? (
             <input
-              className="py-1 px-4 w-[50%] bg-transparent mt-1 rounded-md focus:ring-0 focus:outline-none border-2 focus:border-blue-900"
+              className="py-1 px-4 w-[50%] bg-transparent mt-1 rounded-md focus:ring-0 focus:outline-none border-2 focus:border-primary-color"
               value={titleValue}
               type="text"
               onKeyDown={handleTitlePress}
@@ -223,9 +228,14 @@ function TaskLayout({
               className="text-black font-bold text-lg"
               onDoubleClick={() => setEditTitle(true)}
             >
-              {status === "Completed" ? <del>{title}</del> : title}
+              {status === "Cancelled" ? <del>{title}</del> : title}
             </h1>
           )}
+        {
+            status === "Completed" ? <TickIcon className={"ml-5"}/> : ""
+          }
+        </div>
+          
 
           <div className="flex items-center w-60 text-left justify-between">
             <p className="font-bold text-sm">Status :</p>
@@ -272,15 +282,14 @@ function TaskLayout({
         <div className="flex justify-between mt-2">
           {editDescription === true ? (
             <textarea
-              className="py-1 px-4 w-[50%] text-[13px] bg-transparent mt-1 rounded-md focus:ring-0 focus:outline-none border-2 focus:border-blue-900"
-              value={descriptionValue}
+              className="py-1 px-4 w-[50%] text-[13px] bg-transparent mt-1 rounded-md focus:ring-0 focus:outline-none border-2 focus:border-primary-color"              value={descriptionValue}
               type="text"
               onKeyDown={handleDescriptionPress}
               onChange={(event) => setDescriptionValue(event.target.value)}
             />
           ) : (
             <p className="text-[13px] w-[75%]" onDoubleClick={()=> setEditDescription(true)}>
-              {status === "Completed" ? <del>{description}</del> : description}
+              {status === "Cancelled" ? <del>{description}</del> : description}
             </p>
           )}
           <div className="flex items-center w-60 text-left">
@@ -296,6 +305,7 @@ function TaskLayout({
                 </Dropdown.Item>
               ))}
             </Dropdown>
+            
           </div>
         </div>
       </div>
