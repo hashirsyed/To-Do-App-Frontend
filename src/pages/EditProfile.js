@@ -54,11 +54,10 @@ function EditProfile() {
   async function submitNameHandler() {
 
     try {
-      const body = {
-        name: nameValue,
-      };
+      const formData = new FormData();
+    formData.append('name', nameValue);
 
-      await axios.put(`${config.BASE_URL}/users/${user.id}`, body, {
+      await axios.put(`${config.BASE_URL}/users/${user.id}`, formData, {
         headers: {
           Authorization: token,
         },
