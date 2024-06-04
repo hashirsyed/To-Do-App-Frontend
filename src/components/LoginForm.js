@@ -1,13 +1,12 @@
 import { useContext, useEffect, useReducer, useState } from "react";
-import InputField from "./InputField";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import config from "../config";
-import ThemeButton from "./ThemeButton";
 import { NavLink } from "react-router-dom";
 import { Toast } from "flowbite-react";
 import { HiExclamation } from "react-icons/hi";
 import AuthContext from "../store/auth";
+import { ThemeButton , InputField } from "./CustomForm"; 
 
 const initialState = {
   email: "",
@@ -81,7 +80,7 @@ function LoginForm() {
   return (
     <>
       <div className="bg-white h-screen w-full md:w-[60%] px-6 md:px-28 py-12 text-center">
-        <h1 className="text-black font-bold text-2xl md:text-3xl">Login</h1>
+        <h1 className="text-black font-semibold text-2xl md:text-3xl">Login</h1>
         <p className="mt-3 text-gray-600 font-normal text-sm md:text-base">
           Empowering Your Journey from Plans to Achievements
         </p>
@@ -118,12 +117,12 @@ function LoginForm() {
                   <HiExclamation className="h-5 w-5" />
                 </div>
                 <div className="ml-3 text-sm font-normal">{toastMessage}</div>
-                <Toast.Toggle className="bg-transparent hover:bg-transparent duration-300 hover:text-blue-900" />
+                <Toast.Toggle className="bg-transparent hover:bg-transparent duration-300 hover:text-primary-color" />
               </Toast>
             )}
             <div className="flex justify-center text-center mt-12">
               <p className="mr-2">Don't have an account?</p>
-              <p className="text-blue-900">
+              <p className="text-primary-color">
                 <NavLink to={"/signUp"}>Sign Up</NavLink>
               </p>
             </div>

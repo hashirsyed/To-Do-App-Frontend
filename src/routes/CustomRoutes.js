@@ -4,6 +4,7 @@ import SignUp from "../pages/SignUp";
 import { Route, Routes } from "react-router";
 import Login from "../pages/Login";
 import Todo from "../pages/Todo";
+import EditProfile from "../pages/EditProfile";
 
 function CustomRoutes() {
   const appRoutes = [
@@ -33,7 +34,12 @@ function CustomRoutes() {
       element: <Todo />
     },
     {
-      id: 6,
+      id : 6,
+      path: "/editProfile",
+      element: <EditProfile />
+    },
+    {
+      id: 7,
       path: "*",
       element: <PageNotFound />,
     },

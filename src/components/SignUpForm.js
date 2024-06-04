@@ -1,11 +1,10 @@
 import { useContext, useEffect, useReducer, useState } from "react";
-import InputField from "./InputField";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import config from "../config";
-import ThemeButton from "./ThemeButton";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../store/auth";
+import { ThemeButton , InputField } from "./CustomForm";
 
 const initialState = {
   name: "",
@@ -74,7 +73,7 @@ function SignUpForm() {
   return (
     <>
       <div className="bg-white h-screen w-[60%] px-28 py-12 text-center">
-        <h1 className="text-black font-bold text-3xl">Sign Up</h1>
+        <h1 className="text-black font-semibold text-3xl">Sign Up</h1>
         <p className="mt-3 text-gray-600 font-normal">
           Empowering Your Journey from Plans to Achievements
         </p>
@@ -114,9 +113,9 @@ function SignUpForm() {
               required={true}
             />
             <ThemeButton className={"w-full"} disabled={error}>Sign Up</ThemeButton>
-            <div className="flex justify-center text-center mt-16">
+            <div className="flex justify-center text-center mt-6">
               <p>Already a user?</p>
-              <p className="text-blue-900"><NavLink to={"/login"}>Login</NavLink></p>
+              <p className="text-primary-color"><NavLink to={"/login"}>Login</NavLink></p>
             </div>
           </form>
         </div>

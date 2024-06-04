@@ -217,7 +217,7 @@ function TaskLayout({
         <div className={`flex ${editTitle === true ? "items-center" : ""} w-[60%]`}>
           {editTitle === true ? (
             <input
-              className="py-1 px-4 w-[50%] bg-transparent mt-1 rounded-md focus:ring-0 focus:outline-none border-2 focus:border-primary-color"
+              className="py-1 px-4 w-[70%] bg-transparent mt-1 rounded-md focus:ring-0 focus:outline-none border-2 focus:border-primary-color"
               value={titleValue}
               type="text"
               onKeyDown={handleTitlePress}
@@ -282,7 +282,7 @@ function TaskLayout({
         <div className="flex justify-between mt-2">
           {editDescription === true ? (
             <textarea
-              className="py-1 px-4 w-[50%] text-[13px] bg-transparent mt-1 rounded-md focus:ring-0 focus:outline-none border-2 focus:border-primary-color"              value={descriptionValue}
+              className="py-1 px-4 w-[70%] text-[13px] bg-transparent mt-1 rounded-md focus:ring-0 focus:outline-none border-2 focus:border-primary-color"              value={descriptionValue}
               type="text"
               onKeyDown={handleDescriptionPress}
               onChange={(event) => setDescriptionValue(event.target.value)}
