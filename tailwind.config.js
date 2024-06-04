@@ -10,7 +10,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'primary-color': '#0052CC',
+        'primary-color': '#19A7CE',
+        'custombg-color' : "#AFD3E2",
         'customBlue-color' : '#008FFB',
         'customYellow-color' : '#FEB019',
         'customGreen-color' : '#00E396',

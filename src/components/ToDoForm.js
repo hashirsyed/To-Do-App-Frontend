@@ -1,15 +1,12 @@
 import { useContext, useEffect, useReducer, useRef, useState } from "react";
 import { DashboardLayout } from "../components/DashboardLayout";
-import InputField from "../components/InputField";
-import ThemeButton from "../components/ThemeButton";
 import { Modal } from "flowbite-react";
-import CustomSelect from "../components/CustomSelect";
 import config from "../config";
 import axios from "axios";
 import AuthContext from "../store/auth";
 import TaskLayout from "./TasksLayout";
 import { BeatLoader } from "react-spinners";
-import CustomTextArea from "./CustomTextArea";
+import { CustomTextArea , ThemeButton , InputField , CustomSelect } from "./CustomForm";
 
 const tasks = [];
 const initialState = {
@@ -174,7 +171,7 @@ setInProgressTasks(inProgress);
       </div>
       <div className="mt-20">
       {loading ? (
-  <BeatLoader size={20} color="#1E3A8A" className="text-center" />
+  <BeatLoader size={20} color="#0052CC" className="text-center" />
 ) : (
   <>
     {todoTaks.length === 0 && inProgressTasks.length === 0 && completedTasks.length === 0 && cancelledTasks.length === 0 ? (

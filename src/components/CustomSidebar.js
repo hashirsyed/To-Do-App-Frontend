@@ -2,7 +2,7 @@
 
 import { Sidebar } from "flowbite-react";
 import { HiChartPie, HiViewBoards } from "react-icons/hi";
-import Logo from "../Todo Nexus Logo.png";
+import Logo from "../Logo.png";
 import { NavLink, useLocation } from "react-router-dom";
 
 export function CustomSidebar() {
