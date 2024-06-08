@@ -97,7 +97,7 @@ function EditProfile() {
         <div className="flex items-center">
           <div className="relative">
             <img
-              src={"https://www.svgrepo.com/show/452030/avatar-default.svg" || `${config.BASE_URL_PUBLIC}${user.profileUrl}`}
+              src={"https://www.svgrepo.com/show/452030/avatar-default.svg" ? "https://www.svgrepo.com/show/452030/avatar-default.svg" `${config.BASE_URL_PUBLIC}${user.profileUrl}`}
               className="w-40 h-40 rounded-full"
             />
             <Modal show={openModal} size="lg" onClose={onCloseModal} popup>
