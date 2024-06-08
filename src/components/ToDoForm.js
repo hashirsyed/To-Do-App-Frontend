@@ -171,7 +171,7 @@ setInProgressTasks(inProgress);
       </div>
       <div className="mt-20">
       {loading ? (
-  <BeatLoader size={20} color="#0052CC" className="text-center" />
+  <BeatLoader size={20} color="#19A7CE" className="text-center" />
 ) : (
   <>
     {todoTaks.length === 0 && inProgressTasks.length === 0 && completedTasks.length === 0 && cancelledTasks.length === 0 ? (
