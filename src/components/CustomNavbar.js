@@ -29,7 +29,7 @@ export function CustomNavbar() {
           label={
             <Avatar
               alt="User settings"
-              img={`${config.BASE_URL_PUBLIC}${user.profileUrl}`}
+              img= "https://www.svgrepo.com/show/452030/avatar-default.svg" || {`${config.BASE_URL_PUBLIC}${user.profileUrl}`}
               rounded
             />
           }
