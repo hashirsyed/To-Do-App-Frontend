@@ -4,6 +4,8 @@ import "./index.css";
 import CustomRoutes from "./routes/CustomRoutes";
 import AuthContext from "./store/auth";
 import { useState } from "react";
+import { SkeletonTheme } from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -17,6 +19,7 @@ function App() {
   );
 
   return (
+    <SkeletonTheme baseColor="#e5e7eb" highlightColor="#d1d5db">
     <AuthContext.Provider
       value={{
         isLoggedIn: isLoggedIn,
@@ -29,8 +32,10 @@ function App() {
     >
       <BrowserRouter>
         <CustomRoutes />
+        
       </BrowserRouter>
     </AuthContext.Provider>
+    </SkeletonTheme>
   );
 }
 

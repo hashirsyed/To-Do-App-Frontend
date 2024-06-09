@@ -5,6 +5,8 @@ import config from "../config";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../store/auth";
 import { ThemeButton , InputField } from "./CustomForm";
+import { Toast } from "flowbite-react";
+import { HiExclamation } from "react-icons/hi";
 
 const initialState = {
   name: "",
@@ -31,6 +33,8 @@ function SignUpForm() {
 
   const [state, dispatch] = useReducer(reducerFunction, initialState);
   const [error, setError] = useState(true);
+  const [toastMessage, setToastMessage] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   async function createUserAPI() {
     try {
@@ -51,6 +55,8 @@ function SignUpForm() {
       setIsLoggedIn(true);
       navigate("/dashboard");
     } catch (error) {
+      setToastMessage("Error logging in user: " + error.response.data);
+      setShowToast(true);
       console.error("Error creating user:", error);
     }
   }
@@ -105,13 +111,22 @@ function SignUpForm() {
               label={"Password"}
               type={"password"}
               name={"password"}
-              placeholder={"Enter Password"}
+              placeholder={"Set Password"}
               onChange={(event) =>
                 dispatch({ type: "SET_PASSWORD", payload: event.target.value })
               }
               value={state.password}
               required={true}
             />
+            {showToast && (
+              <Toast className="bg-red-100 mt-2 text-red-500">
+                <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-orange-500 dark:bg-orange-700 ">
+                  <HiExclamation className="h-5 w-5" />
+                </div>
+                <div className="ml-3 text-sm font-normal">{toastMessage}</div>
+                <Toast.Toggle className="bg-transparent hover:bg-transparent duration-300 hover:text-primary-color" />
+              </Toast>
+            )}
             <ThemeButton className={"w-full"} disabled={error}>Sign Up</ThemeButton>
             <div className="flex justify-center text-center mt-6">
               <p>Already a user?</p>

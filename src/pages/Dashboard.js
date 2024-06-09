@@ -4,6 +4,7 @@ import AuthContext from "../store/auth";
 import { Navigate } from "react-router";
 import Chart from 'react-apexcharts';
 import DashboardDesign from "../components/DashboardDesign";
+import Skeleton from "react-loading-skeleton";
 
 function Dashboard() {
   
@@ -19,6 +20,9 @@ function Dashboard() {
   return (
       <DashboardLayout heading={`Welcome ${user.name}`}>
         <DashboardDesign/>
+        <p>
+        <Skeleton count={3}/>
+        </p>
       </DashboardLayout>
   );
 }

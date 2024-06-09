@@ -56,6 +56,7 @@ function LoginForm() {
       setShowToast(true);
       navigate("/dashboard");
     } catch (error) {
+      console.log(error)
       setToastMessage("Error logging in user: " + error.response.data);
       setShowToast(true);
       console.log("Error logging in user:", error);
