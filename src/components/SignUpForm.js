@@ -4,9 +4,10 @@ import axios from "axios";
 import config from "../config";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../store/auth";
-import { ThemeButton , InputField } from "./CustomForm";
+import { ThemeButton, InputField } from "./CustomForm";
 import { Toast } from "flowbite-react";
 import { HiExclamation } from "react-icons/hi";
+import { ClipLoader } from "react-spinners";
 
 const initialState = {
   name: "",
@@ -35,6 +36,7 @@ function SignUpForm() {
   const [error, setError] = useState(true);
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [loading , setLoading] = useState(false);
 
   async function createUserAPI() {
     try {
@@ -44,20 +46,23 @@ function SignUpForm() {
         password: state.password,
       };
       const url = `${config.BASE_URL}/users/`;
-      const response = await axios.post( url , body);
+      setLoading(true);
+      const response = await axios.post(url, body);
       const { token, user } = response.data;
 
       localStorage.setItem("user", JSON.stringify(user));
       setUser(user);
       localStorage.setItem("token", token);
       setToken(token);
-      localStorage.setItem("isLoggedIn" , "true")
+      localStorage.setItem("isLoggedIn", "true");
       setIsLoggedIn(true);
       navigate("/dashboard");
     } catch (error) {
-      setToastMessage("Error logging in user: " + error.response.data);
+      setToastMessage("Error logging in user: " + error.response?.data);
       setShowToast(true);
       console.error("Error creating user:", error);
+    }finally {
+      setLoading(false);
     }
   }
 
@@ -69,7 +74,12 @@ function SignUpForm() {
   }
 
   useEffect(() => {
-    if (state.name && state.email && state.password && state.password.length >= 8) {
+    if (
+      state.name &&
+      state.email &&
+      state.password &&
+      state.password.length >= 8
+    ) {
       setError(false);
     } else {
       setError(true);
@@ -78,9 +88,11 @@ function SignUpForm() {
 
   return (
     <>
-      <div className="bg-white h-screen w-[60%] px-28 py-12 text-center">
-        <h1 className="text-black font-semibold text-3xl">Sign Up</h1>
-        <p className="mt-3 text-gray-600 font-normal">
+      <div className="bg-white md:w-[60%] px-5 md:px-16 lg:px-20 xl:px-28 py-12 text-center">
+        <h1 className="text-black font-semibold text-2xl md:text-3xl">
+          Sign Up
+        </h1>
+        <p className="mt-3 text-gray-600 font-normal md:text-base">
           Empowering Your Journey from Plans to Achievements
         </p>
         <div className="text-left mt-6">
@@ -127,10 +139,14 @@ function SignUpForm() {
                 <Toast.Toggle className="bg-transparent hover:bg-transparent duration-300 hover:text-primary-color" />
               </Toast>
             )}
-            <ThemeButton className={"w-full"} disabled={error}>Sign Up</ThemeButton>
+            <ThemeButton className={"w-full"} disabled={error}>
+            {loading ? <ClipLoader size={20} color="#19A7CE" className="text-center"/> :"Login"}
+            </ThemeButton>
             <div className="flex justify-center text-center mt-6">
               <p>Already a user?</p>
-              <p className="text-primary-color"><NavLink to={"/login"}>Login</NavLink></p>
+              <p className="text-primary-color">
+                <NavLink to={"/login"}>Login</NavLink>
+              </p>
             </div>
           </form>
         </div>

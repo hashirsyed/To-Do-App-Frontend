@@ -5,7 +5,7 @@ import config from "../config";
 import axios from "axios";
 import AuthContext from "../store/auth";
 import TaskLayout from "./TasksLayout";
-import { BeatLoader } from "react-spinners";
+import { BeatLoader, ClipLoader } from "react-spinners";
 import { CustomTextArea , ThemeButton , InputField , CustomSelect } from "./CustomForm";
 
 const tasks = [];
@@ -40,6 +40,7 @@ function ToDoForm() {
   const [todoTaks , setTodoTasks] = useState([]);
   const [inProgressTasks,setInProgressTasks] = useState([]);
   const [error, setError] = useState(true);
+  const [addTaskLoading , setAddTaskLoading] = useState(false);
 
   function onCloseModal() {
     setOpenModal(false);
@@ -59,13 +60,15 @@ function ToDoForm() {
     };
 
     const url = `${config.BASE_URL}/users/${user.id}/tasks`;
-
+    setAddTaskLoading(true);
     try {
       await axios.post(url, body, { headers });
       onCloseModal();
       getTasks();
     } catch (error) {
       console.error("Error submitting task:", error);
+    }finally {
+      setAddTaskLoading(false)
     }
   }
 
@@ -163,7 +166,7 @@ setInProgressTasks(inProgress);
                 <option value="High">High</option>
               </CustomSelect>
               <ThemeButton className={"w-full"} type="submit">
-                Add
+              {addTaskLoading ? <ClipLoader size={20} color="#19A7CE" className="text-center"/> :"Login"}
               </ThemeButton>
             </form>
           </Modal.Body>

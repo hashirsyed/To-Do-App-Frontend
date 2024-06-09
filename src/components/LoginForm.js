@@ -6,7 +6,8 @@ import { NavLink } from "react-router-dom";
 import { Toast } from "flowbite-react";
 import { HiExclamation } from "react-icons/hi";
 import AuthContext from "../store/auth";
-import { ThemeButton , InputField } from "./CustomForm"; 
+import { ThemeButton, InputField } from "./CustomForm";
+import { ClipLoader } from "react-spinners";
 
 const initialState = {
   email: "",
@@ -34,6 +35,7 @@ function LoginForm() {
   const [toastMessage, setToastMessage] = useState("");
   const [state, dispatch] = useReducer(reducerFunction, initialState);
   const [error, setError] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   async function createUserAPI() {
     try {
@@ -42,6 +44,7 @@ function LoginForm() {
         password: state.password,
       };
       const url = `${config.BASE_URL}/users/login`;
+      setLoading(true);
       const response = await axios.post(url, body);
       console.log(response);
       const { token, user } = response.data;
@@ -56,10 +59,12 @@ function LoginForm() {
       setShowToast(true);
       navigate("/dashboard");
     } catch (error) {
-      console.log(error)
-      setToastMessage("Error logging in user: " + error.response.data);
+      console.log(error);
+      setToastMessage("Error logging in user: " + error.response?.data);
       setShowToast(true);
       console.log("Error logging in user:", error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -110,15 +115,15 @@ function LoginForm() {
               required={true}
             />
             <ThemeButton className={"w-full"} disabled={error}>
-              Login
+             {loading ? <ClipLoader size={20} color="#19A7CE" className="text-center"/> :"Login"}
             </ThemeButton>
             {showToast && (
               <Toast className="bg-red-100 mt-2 text-red-500">
-                <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-orange-500 dark:bg-orange-700 ">
+                <div className="inline-flex h-8 shrink-0 items-center justify-center rounded-lg text-orange-500 dark:bg-orange-700 ">
                   <HiExclamation className="h-5 w-5" />
                 </div>
                 <div className="ml-3 text-sm font-normal">{toastMessage}</div>
-                <Toast.Toggle className="bg-transparent hover:bg-transparent duration-300 hover:text-primary-color" />
+                <Toast.Toggle className="bg-transparent hover:bg-transparent duration-300 hover:text-black" />
               </Toast>
             )}
             <div className="flex justify-center text-center mt-12">
