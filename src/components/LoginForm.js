@@ -85,7 +85,7 @@ function LoginForm() {
 
   return (
     <>
-      <div className="bg-white h-screen w-full md:w-[60%] px-6 md:px-28 py-12 text-center">
+      <div className="bg-white w-full md:w-[60%] px-6 md:px-28 py-12 text-center">
         <h1 className="text-black font-semibold text-2xl md:text-3xl">Login</h1>
         <p className="mt-3 text-gray-600 font-normal text-sm md:text-base">
           Empowering Your Journey from Plans to Achievements
