@@ -10,6 +10,7 @@ function DashboardDesign() {
   const [series, setSeries] = useState([]);
   const [labels, setLabels] = useState([]);
   const [allTasks, setAllTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   async function getTasks() {
     try {
@@ -45,6 +46,9 @@ function DashboardDesign() {
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
+    finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -54,10 +58,10 @@ function DashboardDesign() {
   return (
     <>
       <div className="mt-10 grid gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        <TaskCounterCard status={"All Tasks"} count={allTasks} color={"bg-primary-color"} text={"white"}/>
-        <TaskCounterCard status={"Completed"} count={series[2]} color={"bg-customGreen-color"} text={"white"}/>
-        <TaskCounterCard status={"In Progress"} count={series[1]} color={"bg-customYellow-color"} text={"white"}/>
-        <TaskCounterCard status={"Todo"} count={series[0]} color={"bg-customBlue-color"} text={"white"}/>
+        <TaskCounterCard status={"All Tasks"} count={allTasks} color={"bg-primary-color"} text={"white"} loading={loading}/>
+        <TaskCounterCard status={"Completed"} count={series[2]} color={"bg-customGreen-color"} text={"white"} loading={loading}/>
+        <TaskCounterCard status={"In Progress"} count={series[1]} color={"bg-customYellow-color"} text={"white"} loading={loading}/>
+        <TaskCounterCard status={"Todo"} count={series[0]} color={"bg-customBlue-color"} text={"white"} loading={loading}/>
         
       </div>
         <div className="mt-10 flex justify-center items-center">
