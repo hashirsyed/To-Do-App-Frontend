@@ -18,8 +18,8 @@ function SignUp (){
     return (
         <>
         <div className=' w-full h-screen bg-primary-color flex justify-center items-center'>
-        <div className='flex w-[60vw] h-[85vh] border-4 border-white mx-auto bg-transparent overflow-hidden rounded-3xl'>
-        <div className='w-[40%] h-full flex justify-center items-center'>
+        <div className='flex md:w-[60vw] md:h-[85vh] border-4 border-white mx-auto bg-transparent overflow-hidden rounded-3xl'>
+        <div className='hidden md:flex w-[40%] h-full justify-center items-center'>
             <img src={Vector} className="h-46 mb-16"/>
         </div>
             <SignUpForm />

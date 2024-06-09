@@ -5,6 +5,7 @@ import { Navigate } from "react-router";
 import Chart from 'react-apexcharts';
 import DashboardDesign from "../components/DashboardDesign";
 import Skeleton from "react-loading-skeleton";
+import { ClipLoader } from "react-spinners";
 
 function Dashboard() {
   
@@ -20,9 +21,6 @@ function Dashboard() {
   return (
       <DashboardLayout heading={`Welcome ${user.name}`}>
         <DashboardDesign/>
-        <p>
-        <Skeleton count={3}/>
-        </p>
       </DashboardLayout>
   );
 }
