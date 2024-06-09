@@ -166,7 +166,7 @@ setInProgressTasks(inProgress);
                 <option value="High">High</option>
               </CustomSelect>
               <ThemeButton className={"w-full"} type="submit">
-              {addTaskLoading ? <ClipLoader size={20} color="#19A7CE" className="text-center"/> :"Login"}
+              {addTaskLoading ? <ClipLoader size={20} color="#19A7CE" className="text-center"/> :"Add Task"}
               </ThemeButton>
             </form>
           </Modal.Body>

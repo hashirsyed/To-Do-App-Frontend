@@ -140,7 +140,7 @@ function SignUpForm() {
               </Toast>
             )}
             <ThemeButton className={"w-full"} disabled={error}>
-            {loading ? <ClipLoader size={20} color="#19A7CE" className="text-center"/> :"Login"}
+            {loading ? <ClipLoader size={20} color="#19A7CE" className="text-center"/> :"Sign Up"}
             </ThemeButton>
             <div className="flex justify-center text-center mt-6">
               <p>Already a user?</p>
