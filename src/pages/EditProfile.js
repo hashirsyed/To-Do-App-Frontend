@@ -13,7 +13,7 @@ function EditProfile() {
   const { user, token, setUser } = useContext(AuthContext);
 
   const [openModal, setOpenModal] = useState(false);
-  const [deleteOpenModal, setDeleteOpenModal] = useState(true);
+  const [deleteOpenModal, setDeleteOpenModal] = useState(false);
   const [editName, setEditName] = useState(false);
   const [nameValue, setNameValue] = useState(user.name);
   const [image, setImage] = useState();
