@@ -69,14 +69,15 @@ export function OptionsTaskIcon({ color = "black", size = 15, ...props }) {
     </svg>
   );
 }
-export function TrashIcon({ color = "black", size = 15, ...props }) {
+export function TrashIcon({ color = "black", size = 20, className, onClick , ...props }) {
   return (
     <svg
-      className={`w-6 h-6 ml-0 mr-2 text-${color}-500 dark:text-white`}
+      className={`w-6 h-6 ml-0 mr-2 text-${color}-500 dark:text-white ${className}`}
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
+      width={size}
+      height={size}
+      onClick={onClick}
       fill="none"
       viewBox="0 0 24 24"
     >
