@@ -46,6 +46,7 @@ function SignUpForm() {
         password: state.password,
       };
       const url = `${config.BASE_URL}/users/`;
+      setShowToast(false)
       setLoading(true);
       const response = await axios.post(url, body);
       const { token, user } = response.data;
@@ -58,7 +59,7 @@ function SignUpForm() {
       setIsLoggedIn(true);
       navigate("/dashboard");
     } catch (error) {
-      setToastMessage("Error logging in user: " + error.response?.data);
+      setToastMessage("Error creating user: " + error.response?.data);
       setShowToast(true);
       console.error("Error creating user:", error);
     }finally {
@@ -88,7 +89,7 @@ function SignUpForm() {
 
   return (
     <>
-      <div className="bg-white md:w-[60%] px-5 md:px-16 lg:px-20 xl:px-28 py-12 text-center">
+      <div className="bg-white md:text-sm lg:text-base md:w-[60%] px-5 md:px-14 py-12 text-center">
         <h1 className="text-black font-semibold text-2xl md:text-3xl">
           Sign Up
         </h1>
@@ -118,6 +119,7 @@ function SignUpForm() {
               }
               value={state.email}
               required={true}
+              formClassName={"mt-2 md:mt-2 lg:mt-6"}
             />
             <InputField
               label={"Password"}
@@ -129,20 +131,21 @@ function SignUpForm() {
               }
               value={state.password}
               required={true}
+              formClassName={"mt-2 md:mt-2 lg:mt-6"}
             />
             {showToast && (
-              <Toast className="bg-red-100 mt-2 text-red-500">
+              <Toast className="bg-red-100 mt-2 text-red-500 ml-auto mr-auto">
                 <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-orange-500 dark:bg-orange-700 ">
                   <HiExclamation className="h-5 w-5" />
                 </div>
                 <div className="ml-3 text-sm font-normal">{toastMessage}</div>
-                <Toast.Toggle className="bg-transparent hover:bg-transparent duration-300 hover:text-primary-color" />
+                <Toast.Toggle className="bg-transparent hover:bg-transparent duration-300 hover:text-black" />
               </Toast>
             )}
-            <ThemeButton className={"w-full"} disabled={error}>
+            <ThemeButton className={"w-full md:mt-3 lg:mt-10"} disabled={error}>
             {loading ? <ClipLoader size={20} color="#19A7CE" className="text-center"/> :"Sign Up"}
             </ThemeButton>
-            <div className="flex justify-center text-center mt-6">
+            <div className="flex justify-center text-center mt-6 md:mt-2 lg:mt-6">
               <p>Already a user?</p>
               <p className="text-primary-color">
                 <NavLink to={"/login"}>Login</NavLink>

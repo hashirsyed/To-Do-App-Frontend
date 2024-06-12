@@ -17,7 +17,7 @@ export function CustomNavbar() {
     navigate("/login")
     
   }
-
+  const userName = user.name.split(' ') 
   return (
     <Navbar fluid rounded>
       <div></div>
@@ -29,7 +29,7 @@ export function CustomNavbar() {
           label={
             <Avatar
               alt="User settings"
-              img= {`${config.BASE_URL_PUBLIC}${user.profileUrl}`}
+              img= {user.profileUrl ? `${config.BASE_URL_PUBLIC}${user.profileUrl}`: `https://ui-avatars.com/api/?name=${userName[0]}+${userName[1]}$background=random` }
               rounded
             />
           }
