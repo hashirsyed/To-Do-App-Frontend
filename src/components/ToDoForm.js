@@ -161,9 +161,10 @@ setInProgressTasks(inProgress);
                 }
               >
                 <option >Select Priority</option>
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
+                
                 <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
               </CustomSelect>
               <ThemeButton className={"w-full"} type="submit">
               {addTaskLoading ? <ClipLoader size={20} color="#19A7CE" className="text-center"/> :"Add Task"}
