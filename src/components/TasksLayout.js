@@ -13,20 +13,22 @@ import config from "../config";
 import { OptionsTaskIcon } from "./Icons";
 
 const priorities = [
+ 
+  
   {
-    label: "Low",
-    value: "Low",
-    icon: <LowPriorityIcon color={"gray"} className={"mr-4"} size={14} />,
+    label: "High",
+    value: "High",
+    icon: <HighPriorityIcon color={"gray"} className={"mr-4"} size={14} />,
   },
   {
     label: "Medium",
     value: "Medium",
     icon: <MediumPriorityIcon color={"gray"} className={"mr-4"} size={14} />,
   },
-  {
-    label: "High",
-    value: "High",
-    icon: <HighPriorityIcon color={"gray"} className={"mr-4"} size={14} />,
+   {
+    label: "Low",
+    value: "Low",
+    icon: <LowPriorityIcon color={"gray"} className={"mr-4"} size={14} />,
   },
 ];
 const statuses = [
