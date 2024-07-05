@@ -11,6 +11,12 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 function EditProfile() {
   const { user, token, setUser } = useContext(AuthContext);
+  let picture = user.profileUrl.split("/");
+  if(picture[0] === "https:"){
+    picture = user.profileUrl
+  }else {
+    picture = `${config.BASE_URL_PUBLIC}${user.profileUrl}`;
+  }
 
   const [openModal, setOpenModal] = useState(false);
   const [deleteOpenModal, setDeleteOpenModal] = useState(false);
@@ -113,7 +119,7 @@ function EditProfile() {
             <img
               src={
                 user.profileUrl
-                  ? `${config.BASE_URL_PUBLIC}${user.profileUrl}`
+                  ? picture
                   : `https://ui-avatars.com/api/?name=${userName[0]}+${userName[1]}$background=random`
               }
               className="w-40 h-40 rounded-full"
@@ -125,7 +131,7 @@ function EditProfile() {
                   <img
                     src={
                       user.profileUrl
-                        ? `${config.BASE_URL_PUBLIC}${user.profileUrl}`
+                        ? picture
                         : imageDisplay
                         ? imageDisplay
                         : `https://ui-avatars.com/api/?name=${userName[0]}+${userName[1]}$background=random`

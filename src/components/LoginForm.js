@@ -8,7 +8,8 @@ import { HiExclamation } from "react-icons/hi";
 import AuthContext from "../store/auth";
 import { ThemeButton, InputField } from "./CustomForm";
 import { ClipLoader } from "react-spinners";
-
+import { useGoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
+import CustomGoogleButton from "./CustomGoogleButton";
 const initialState = {
   email: "",
   password: "",
@@ -37,6 +38,63 @@ function LoginForm() {
   const [error, setError] = useState(true);
   const [loading, setLoading] = useState(false);
 
+  useGoogleOneTapLogin({
+    onSuccess: async (credentialResponse) => {
+      console.log(credentialResponse);
+      const body = {
+        googleAuthorizationToken: credentialResponse.credential,
+      };
+      const url = `${config.BASE_URL}/users/google`;
+
+      try {
+        const response = await axios.post(url, body);
+        const { token, user } = response.data;
+        localStorage.setItem("user", JSON.stringify(user));
+        setUser(user);
+        localStorage.setItem("token", token);
+        setToken(token);
+        localStorage.setItem("isLoggedIn", "true");
+        setIsLoggedIn(true);
+        navigate("/dashboard");
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    },
+    onError: () => {
+      console.log("Login Failed");
+    },
+  });
+  const login = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      console.log(tokenResponse);
+      const body = {
+        googleAuthorizationToken: tokenResponse.access_token,
+        flow: "implicit",
+      };
+      const url = `${config.BASE_URL}/users/google`;
+
+      try {
+        const response = await axios.post(url, body);
+        const { token, user } = response.data;
+        localStorage.setItem("user", JSON.stringify(user));
+        setUser(user);
+        localStorage.setItem("token", token);
+        setToken(token);
+        localStorage.setItem("isLoggedIn", "true");
+        setIsLoggedIn(true);
+        navigate("/dashboard");
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    },
+    onError: () => {
+      console.log("Login Failed");
+    },
+    flow: "implicit",
+  });
+
   async function createUserAPI() {
     try {
       const body = {
@@ -44,7 +102,7 @@ function LoginForm() {
         password: state.password,
       };
       const url = `${config.BASE_URL}/users/login`;
-      
+
       setShowToast(false);
       setLoading(true);
       const response = await axios.post(url, body);
@@ -91,7 +149,7 @@ function LoginForm() {
         <p className="mt-3 text-gray-600 font-normal text-sm md:text-base">
           Empowering Your Journey from Plans to Achievements
         </p>
-        <div className="text-left mt-6">
+        <div className="text-left mt-4">
           <form onSubmit={submitHandler}>
             <InputField
               label={"Email"}
@@ -118,7 +176,11 @@ function LoginForm() {
               formClassName={"mt-6 md:mt-2 lg:mt-6"}
             />
             <ThemeButton className={"w-full md:mt-4 lg:mt-10"} disabled={error}>
-             {loading ? <ClipLoader size={20} color="#19A7CE" className="text-center"/> :"Login"}
+              {loading ? (
+                <ClipLoader size={20} color="#19A7CE" className="text-center" />
+              ) : (
+                "Login"
+              )}
             </ThemeButton>
             {showToast && (
               <Toast className="bg-red-100 mt-2 text-red-500 ml-auto mr-auto">
@@ -129,7 +191,12 @@ function LoginForm() {
                 <Toast.Toggle className="bg-transparent hover:bg-transparent duration-300 hover:text-black" />
               </Toast>
             )}
-            <div className="flex justify-center text-center text-base md:text-sm lg:text-base mt-6 md:mt-4 lg:mt-12">
+            <div className="text-center mt-5">
+              <p>OR</p>
+            </div>
+            <CustomGoogleButton text={"Sign In with Google"} onClick={login} />
+
+            <div className="flex justify-center text-center text-base md:text-sm lg:text-base mt-6 md:mt-4 lg:mt-2">
               <p>Don't have an account?</p>
               <p className="text-primary-color">
                 <NavLink to={"/signUp"}>Sign Up</NavLink>

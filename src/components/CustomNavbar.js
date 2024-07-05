@@ -10,6 +10,14 @@ import config from "../config";
 export function CustomNavbar() {
   const { setIsLoggedIn, user } = useContext(AuthContext);
   const navigate = useNavigate();
+  let picture = user.profileUrl.split("/");
+  if(picture[0] === "https:"){
+    picture = user.profileUrl
+  }else {
+    picture = `${config.BASE_URL_PUBLIC}${user.profileUrl}`;
+  }
+
+  console.log(user.profileUrl)
 
   function logOut() {
     localStorage.setItem("isLoggedIn","false");
@@ -29,7 +37,7 @@ export function CustomNavbar() {
           label={
             <Avatar
               alt="User settings"
-              img= {user.profileUrl ? `${config.BASE_URL_PUBLIC}${user.profileUrl}`: `https://ui-avatars.com/api/?name=${userName[0]}+${userName[1]}$background=random` }
+              img= {user.profileUrl ? picture: `https://ui-avatars.com/api/?name=${userName[0]}+${userName[1]}$background=random` }
               rounded
             />
           }

@@ -8,6 +8,8 @@ import { ThemeButton, InputField } from "./CustomForm";
 import { Toast } from "flowbite-react";
 import { HiExclamation } from "react-icons/hi";
 import { ClipLoader } from "react-spinners";
+import CustomGoogleButton from "./CustomGoogleButton";
+import { useGoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
 
 const initialState = {
   name: "",
@@ -37,6 +39,62 @@ function SignUpForm() {
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [loading , setLoading] = useState(false);
+
+  useGoogleOneTapLogin({
+    onSuccess: async credentialResponse => {
+      console.log(credentialResponse);
+      const body = {
+        googleAuthorizationToken : credentialResponse.credential
+      };
+      const url = `${config.BASE_URL}/users/google`;
+      
+      try {
+        const response = await axios.post(url, body);
+      const { token, user } = response.data;
+        localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
+      localStorage.setItem("token", token);
+      setToken(token);
+      localStorage.setItem("isLoggedIn", "true");
+      setIsLoggedIn(true);
+      navigate("/dashboard");
+        console.log(response.data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+    },
+    onError: () => {
+      console.log('Sign Up Failed');
+    },
+  });
+  const signup = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      console.log(tokenResponse);
+      const body = {
+        googleAuthorizationToken : tokenResponse.access_token
+      };
+      const url = `${config.BASE_URL}/users/google`;
+      
+      try {
+        const response = await axios.post(url, body);
+      const { token, user } = response.data;
+        localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
+      localStorage.setItem("token", token);
+      setToken(token);
+      localStorage.setItem("isLoggedIn", "true");
+      setIsLoggedIn(true);
+      navigate("/dashboard");
+        console.log(response.data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+    },
+    onError: () => {
+      console.log("Sign Up Failed");
+    },
+    flow: "auth-code"
+  });
 
   async function createUserAPI() {
     try {
@@ -89,14 +147,14 @@ function SignUpForm() {
 
   return (
     <>
-      <div className="bg-white md:text-sm lg:text-base md:w-[60%] px-5 md:px-14 py-12 text-center">
+      <div className="bg-white md:text-sm lg:text-base md:w-[60%] px-5 md:px-14 py-10 text-center overflow-y-auto">
         <h1 className="text-black font-semibold text-2xl md:text-3xl">
           Sign Up
         </h1>
         <p className="mt-3 text-gray-600 font-normal md:text-base">
           Empowering Your Journey from Plans to Achievements
         </p>
-        <div className="text-left mt-6">
+        <div className="text-left">
           <form onSubmit={submitHandler}>
             <InputField
               label={"Name"}
@@ -119,7 +177,7 @@ function SignUpForm() {
               }
               value={state.email}
               required={true}
-              formClassName={"mt-2 md:mt-2 lg:mt-6"}
+              formClassName={"mt-2 md:mt-2 lg:mt-2"}
             />
             <InputField
               label={"Password"}
@@ -131,7 +189,7 @@ function SignUpForm() {
               }
               value={state.password}
               required={true}
-              formClassName={"mt-2 md:mt-2 lg:mt-6"}
+              formClassName={"mt-2 md:mt-2 lg:mt-2"}
             />
             {showToast && (
               <Toast className="bg-red-100 mt-2 text-red-500 ml-auto mr-auto">
@@ -142,10 +200,14 @@ function SignUpForm() {
                 <Toast.Toggle className="bg-transparent hover:bg-transparent duration-300 hover:text-black" />
               </Toast>
             )}
-            <ThemeButton className={"w-full md:mt-3 lg:mt-10"} disabled={error}>
+            <ThemeButton className={"w-full md:mt-3 lg:mt-4"} disabled={error}>
             {loading ? <ClipLoader size={20} color="#19A7CE" className="text-center"/> :"Sign Up"}
             </ThemeButton>
-            <div className="flex justify-center text-center mt-6 md:mt-2 lg:mt-6">
+            <div className="text-center mt-2">
+              <p>OR</p>
+            </div>
+            <CustomGoogleButton text={"Sign Up with Google"} onClick={signup}/>
+            <div className="flex justify-center text-center mt-6 md:mt-2 lg:mt-2">
               <p>Already a user?</p>
               <p className="text-primary-color">
                 <NavLink to={"/login"}>Login</NavLink>

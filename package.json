@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@flaticon/flaticon-uicons": "^3.2.1",
+    "@react-oauth/google": "^0.12.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -11,6 +12,7 @@
     "axios": "^1.6.8",
     "flowbite": "^2.3.0",
     "flowbite-react": "^0.9.0",
+    "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
     "react-dom": "^18.2.0",

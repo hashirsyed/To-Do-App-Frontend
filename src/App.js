@@ -6,6 +6,11 @@ import AuthContext from "./store/auth";
 import { useState } from "react";
 import { SkeletonTheme } from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css'
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
+
+const clientId = "725816900088-fuvsj7skkohs1k6ol9cfd0vvl1i5taio.apps.googleusercontent.com";
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -19,6 +24,7 @@ function App() {
   );
 
   return (
+    <GoogleOAuthProvider clientId={clientId}>
     <SkeletonTheme baseColor="#e5e7eb" highlightColor="#d1d5db">
     <AuthContext.Provider
       value={{
@@ -36,6 +42,7 @@ function App() {
       </BrowserRouter>
     </AuthContext.Provider>
     </SkeletonTheme>
+    </GoogleOAuthProvider>
   );
 }
 
