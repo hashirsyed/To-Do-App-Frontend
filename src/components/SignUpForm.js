@@ -44,7 +44,8 @@ function SignUpForm() {
     onSuccess: async credentialResponse => {
       console.log(credentialResponse);
       const body = {
-        googleAuthorizationToken : credentialResponse.credential
+        googleAuthorizationToken : credentialResponse.credential,
+        flow: "implicit",
       };
       const url = `${config.BASE_URL}/users/google`;
       
@@ -66,6 +67,7 @@ function SignUpForm() {
     onError: () => {
       console.log('Sign Up Failed');
     },
+    flow: "implicit",
   });
   const signup = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
