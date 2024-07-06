@@ -11,12 +11,20 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 function EditProfile() {
   const { user, token, setUser } = useContext(AuthContext);
-  let picture = user.profileUrl.split("/");
-  if(picture[0] === "https:"){
-    picture = user.profileUrl
-  }else {
+  let picture;
+
+if (user && user.profileUrl) {
+  let pictureParts = user.profileUrl.split("/");
+  if (pictureParts[0] === "https:") {
+    picture = user.profileUrl;
+  } else {
     picture = `${config.BASE_URL_PUBLIC}${user.profileUrl}`;
   }
+} else {
+  // Handle the case where user or user.profileUrl is null or undefined
+  console.error('User or user.profileUrl is null or undefined');
+  picture = 'default_picture_url'; // You can set a default picture URL here
+}
 
   const [openModal, setOpenModal] = useState(false);
   const [deleteOpenModal, setDeleteOpenModal] = useState(false);
@@ -31,6 +39,7 @@ function EditProfile() {
       setImageDisplay(URL.createObjectURL(event.target.files[0]));
     }
   }
+  console.log(imageDisplay)
 
   async function getUserProfile() {
     try {
